@@ -1,4 +1,4 @@
-// Firewall Builder
+// Firewall Builder с неоновой темой
 function initFirewall() {
     const action = document.getElementById('action');
     const protocol = document.getElementById('protocol');
@@ -35,7 +35,7 @@ function initFirewall() {
             else cmd += `--dport ${v.port} `;
         }
         cmd += `-j ${v.action}`;
-        output.innerText = cmd;
+        output.innerHTML = `🟢 ${cmd}\n\n💡 Совет: правила iptables живут до перезагрузки. Для сохранения используй iptables-persistent.`;
     }
     
     function generateNftables() {
@@ -51,12 +51,12 @@ function initFirewall() {
             else cmd += `dport ${v.port} `;
         }
         cmd += v.action.toLowerCase();
-        output.innerText = cmd;
+        output.innerHTML = `🟢 ${cmd}\n\n💡 Совет: nftables — современная замена iptables. Просмотр правил: nft list ruleset`;
     }
     
     if (genIptables) genIptables.onclick = generateIptables;
     if (genNftables) genNftables.onclick = generateNftables;
-    if (clearBtn) clearBtn.onclick = () => output.innerText = '# Здесь появится команда...';
+    if (clearBtn) clearBtn.onclick = () => output.innerHTML = '# Здесь появится команда...';
 }
 
 document.addEventListener('DOMContentLoaded', initFirewall);
