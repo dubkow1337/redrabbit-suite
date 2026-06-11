@@ -1,4 +1,4 @@
-// Port Scanner (имитация для демо)
+// Port Scanner с неоновой темой и спиннером
 let scanning = false;
 let currentPorts = [];
 
@@ -35,12 +35,17 @@ function initPortScanner() {
             return;
         }
         
-        // Для демо показываем случайные результаты
+        // Показываем спиннер
+        const originalText = scanBtn.innerHTML;
+        scanBtn.innerHTML = '<span class="spinner"></span> Сканирование...';
+        scanBtn.disabled = true;
+        
+        // Для демо показываем неоновые результаты
         const ports = [22, 80, 443, 8080, 3306, 3389];
         scanning = true;
         let openPorts = [];
         
-        resultDiv.innerHTML = `🔍 Сканирование ${target}...\n`;
+        resultDiv.innerHTML = `🔍 Сканирование ${target}...\n\n`;
         progressSpan.innerText = '0%';
         openSpan.innerText = '0';
         closedSpan.innerText = '0';
@@ -54,16 +59,19 @@ function initPortScanner() {
                 
                 if (isOpen) {
                     openPorts.push(port);
-                    resultDiv.innerHTML += `[+] Порт ${port} ОТКРЫТ\n`;
+                    resultDiv.innerHTML += `🟢 [${new Date().toLocaleTimeString()}] [+] Порт ${port} ${'='.repeat(5)} ОТКРЫТ\n`;
                 } else {
-                    resultDiv.innerHTML += `[-] Порт ${port} ЗАКРЫТ\n`;
+                    resultDiv.innerHTML += `⚫ [${new Date().toLocaleTimeString()}] [-] Порт ${port} ${'.'.repeat(5)} ЗАКРЫТ\n`;
                 }
+                resultDiv.scrollTop = resultDiv.scrollHeight;
                 openSpan.innerText = openPorts.length;
                 closedSpan.innerText = ports.length - openPorts.length;
                 
                 if (idx === ports.length - 1) {
-                    resultDiv.innerHTML += `\n✅ Сканирование завершено. Открыто: ${openPorts.length}, Закрыто: ${ports.length - openPorts.length}`;
+                    resultDiv.innerHTML += `\n${'='.repeat(50)}\n✅ Сканирование завершено.\n🟢 Открыто: ${openPorts.length}\n⚫ Закрыто: ${ports.length - openPorts.length}`;
                     scanning = false;
+                    scanBtn.innerHTML = originalText;
+                    scanBtn.disabled = false;
                 }
             }, idx * 500);
         });
@@ -73,6 +81,8 @@ function initPortScanner() {
         stopBtn.onclick = () => {
             scanning = false;
             resultDiv.innerHTML += `\n⏹ Сканирование остановлено пользователем.`;
+            scanBtn.innerHTML = '▶ Начать сканирование';
+            scanBtn.disabled = false;
         };
     }
 }
