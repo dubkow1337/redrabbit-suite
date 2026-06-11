@@ -1,4 +1,4 @@
-// Log Analyzer
+// Log Analyzer с неоновой темой
 function initLogAnalyzer() {
     const fileInput = document.getElementById('fileInput');
     const uploadArea = document.getElementById('uploadArea');
@@ -34,15 +34,16 @@ function initLogAnalyzer() {
         logStats.style.display = 'flex';
         
         if (sorted.length === 0) {
-            resultDiv.innerHTML = '✅ Не найдено подозрительных IP (попыток брутфорса нет)';
+            resultDiv.innerHTML = '🟢 ✅ Не найдено подозрительных IP (попыток брутфорса нет)';
             return;
         }
         
-        let html = '🔴 <strong>Атакующие IP:</strong><br><br>';
+        let html = '🔴 🔥 <strong>Атакующие IP (неоновый детектор):</strong><br><br>';
         for (const [ip, count] of sorted.slice(0, 20)) {
             let severity = count > 50 ? '🔴 CRITICAL' : (count > 20 ? '🟠 HIGH' : '🟡 MEDIUM');
             html += `${severity} ${ip} — ${count} попыток\n`;
         }
+        html += `\n${'='.repeat(50)}\n💡 Совет: заблокируй эти IP через firewall-builder!`;
         resultDiv.innerHTML = html;
     }
     
