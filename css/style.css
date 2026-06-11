@@ -5,52 +5,26 @@
 }
 
 body {
-    background: #0a0c10;
-    color: #00ff41; /* неоново-зелёный, как в старых мониторах */
+    background: linear-gradient(125deg, #0a0c10, #0d2a0d, #0a1a0a, #0a0c10);
+    background-size: 400% 400%;
+    animation: breatheGradient 12s ease infinite;
+    color: #00ff41;
     font-family: 'Courier New', monospace;
     padding: 20px;
     min-height: 100vh;
     position: relative;
 }
 
-/* Анимированная матрица на фоне с REDRABBIT */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: repeating-linear-gradient(
-        0deg,
-        rgba(0, 255, 65, 0.03) 0px,
-        rgba(0, 255, 65, 0.03) 2px,
-        transparent 2px,
-        transparent 8px
-    );
-    pointer-events: none;
-    z-index: 0;
-}
-
-body::after {
-    content: "REDRABBIT REDRABBIT REDRABBIT ";
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    font-size: 60px;
-    font-weight: bold;
-    color: rgba(0, 255, 65, 0.03);
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 0;
-    font-family: monospace;
-    animation: matrixMove 20s linear infinite;
-}
-
-@keyframes matrixMove {
-    0% { transform: translateX(0); opacity: 0.02; }
-    50% { opacity: 0.05; }
-    100% { transform: translateX(-50%); opacity: 0.02; }
+@keyframes breatheGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .container {
@@ -183,7 +157,6 @@ header h1 span {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Спиннер загрузки */
 .spinner {
     display: inline-block;
     width: 20px;
